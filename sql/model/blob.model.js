@@ -21,6 +21,10 @@ module.exports = (sequelize, Sequelize) => {
         model: 'projects',
         key: 'id',
       },
+    },
+    orderNum: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
     }
   })
 
