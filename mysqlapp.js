@@ -18,7 +18,7 @@ models.sequelize.sync({ force: true }).then(() => {
   }).then((blob) => {
 
     // Create local public directory and file
-    const fileDir = `public/${blob.fileType.toUpperCase()}`
+    const fileDir = `public/${blob.fileType}`
     const fileLocation = `${fileDir}/${blob.fileName}.${blob.fileType}`
 
     fse.ensureDirSync(fileDir)
