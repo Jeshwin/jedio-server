@@ -12,9 +12,7 @@ models.sequelize.sync({ force: true }).then(() => {
   // Create Blob table entry
   Blob.create({
     fileName: 'PowerWireClip',
-    fileType: 'stl',
-    fileBin: binData,
-    isThumbnail: false
+    fileType: 'stl'
   }).then((blob) => {
 
     // Create local public directory and file
@@ -25,16 +23,7 @@ models.sequelize.sync({ force: true }).then(() => {
     fse.ensureFileSync(fileLocation)
     console.log('Directory and file ensured ✅')
 
-    // Ensure that fileBin is a Buffer object
-    if (blob.fileBin instanceof Buffer) {
-      console.log('fileBin is a Buffer object ✅')
-
-      // Write data from fileBin into ensured file
-      fse.outputFileSync(fileLocation, blob.fileBin)
-      process.exit(0)
-    } else {
-      console.log('fileBin is not of type Buffer 🟥')
-      process.exit(1)
-    }
+    fse.outputFileSync(fileLocation, binData)
+    process.exit(0)
   })
 })
