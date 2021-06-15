@@ -11,7 +11,7 @@ module.exports = {
         id: req.params.id
       }
     }).then((responseData) => {
-      console.log(responseData[0].dataValues)
+      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -26,7 +26,7 @@ module.exports = {
         title: req.params.title
       }
     }).then((responseData) => {
-      console.log(responseData[0].dataValues)
+      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -41,12 +41,78 @@ module.exports = {
         category: req.params.category
       }
     }).then((responseData) => {
-      console.log(responseData[0].dataValues)
+      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
       console.error(err)
       res.json({ 'error': 'Could not find this category' })
+    })
+  },
+  // Return recently updated projects up to a certain number
+  getRecentProjects: (req, res) => {
+    console.log(req.params)
+    Project.findAll({
+      limit: parseInt(req.params.amount, 10),
+      order: [['updatedAt', 'DESC']]
+    }).then((responseData) => {
+      console.log(responseData)
+      res.json(responseData)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find projects' })
+    })
+  },
+  // Return oldest projects up to a certain number
+  getOldestProjects: (req, res) => {
+    console.log(req.params)
+    Project.findAll({
+      limit: parseInt(req.params.amount, 10),
+      order: [['createdAt', 'ASC']]
+    }).then((responseData) => {
+      console.log(responseData)
+      res.json(responseData)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find projects' })
+    })
+  },
+  // Return recently updated projects in a category up to a certain number
+  getRecentProjectsByCategory: (req, res) => {
+    console.log(req.params)
+    Project.findAll({
+      where: {
+        category: req.params.category
+      },
+      limit: parseInt(req.params.amount, 10),
+      order: [['updatedAt', 'DESC']]
+    }).then((responseData) => {
+      console.log(responseData)
+      res.json(responseData)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find projects' })
+    })
+  },
+  // Return oldest projects in a category up to a certain number
+  getOldestProjectsByCategory: (req, res) => {
+    console.log(req.params)
+    Project.findAll({
+      where: {
+        category: req.params.category
+      },
+      limit: parseInt(req.params.amount, 10),
+      order: [['createdAt', 'ASC']]
+    }).then((responseData) => {
+      console.log(responseData)
+      res.json(responseData)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find projects' })
     })
   },
   getBlobById: (req, res) => {
@@ -56,7 +122,7 @@ module.exports = {
         id: req.params.id
       }
     }).then((responseData) => {
-      console.log(responseData[0].dataValues)
+      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -71,7 +137,7 @@ module.exports = {
         fileName: req.params.filename
       }
     }).then((responseData) => {
-      console.log(responseData[0].dataValues)
+      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -86,7 +152,7 @@ module.exports = {
         fileType: req.params.filetype
       }
     }).then((responseData) => {
-      console.log(responseData[0].dataValues)
+      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -101,7 +167,7 @@ module.exports = {
         projectId: req.params.projectid
       }
     }).then((responseData) => {
-      console.log(responseData[0].dataValues)
+      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -117,7 +183,7 @@ module.exports = {
       },
       limit: 1
     }).then((responseData) => {
-      console.log(responseData[0].dataValues)
+      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {

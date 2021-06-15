@@ -17,7 +17,7 @@ app.use(express.static('public'))
 
 app.get('/', (req, res) => {
   console.log(req.body)
-  res.send('<h1>Hello World</h1>')
+  res.sendFile('README.html', { root: __dirname })
 })
 
 // Returns info about project from integer id
@@ -33,6 +33,26 @@ app.get('/project/:title', (req, res) => {
 // Returns all projects in certain category
 app.get('/project/category/:category', (req, res) => {
   getMiddleware.getProjectsByCategory(req, res)
+})
+
+// Return recently updated projects up to a certain number
+app.get('/project/recent/:amount(\\d+)', (req, res) => {
+  getMiddleware.getRecentProjects(req, res)
+})
+
+// Return oldest projects up to a certain number
+app.get('/project/oldest/:amount(\\d+)', (req, res) => {
+  getMiddleware.getOldestProjects(req, res)
+})
+
+// Return recently updated projects in a category up to a certain number
+app.get('/project/:category/recent/:amount(\\d+)', (req, res) => {
+  getMiddleware.getOldestProjects(req, res)
+})
+
+// Return oldest projects in a category up to a certain number
+app.get('/project/:category/oldest/:amount(\\d+)', (req, res) => {
+  getMiddleware.getOldestProjects(req, res)
 })
 
 // Return all blobs for certain project by id
@@ -60,10 +80,13 @@ app.get('/blob/type/:filetype', (req, res) => {
   getMiddleware.getBlobsByType(req, res)
 })
 
-// TODO: Return recently updated projects up to a certain number
-// TODO: Return oldest projects up to a certain number
-// TODO: Return recently updated projects in a category up to a certain number
-// TODO: Return oldest projects in a category up to a certain number
+// FIXME: Read data from post request and redirect?
+// IDEA: Use multiparty to parse file datat?
+app.post('/create/project', (req, res) => {
+  console.log(req.headers)
+  console.log(req.body)
+  res.json({ 'hello': req.headers.origin })
+})
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
