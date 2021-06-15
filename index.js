@@ -5,6 +5,7 @@ const cors = require('cors')
 
 const app = express()
 const getMiddleware = require('./middleware/get.middleware.js')
+const postMiddleware = require('./middleware/post.middleware.js')
 
 app.use(morgan('tiny'))
 app.use(cors())
@@ -82,10 +83,10 @@ app.get('/blob/type/:filetype', (req, res) => {
 
 // FIXME: Read data from post request and redirect?
 // IDEA: Use multiparty to parse file datat?
-app.post('/create/project', (req, res) => {
+app.post('/create/project', (req, res, next) => {
   console.log(req.headers)
   console.log(req.body)
-  res.json({ 'hello': req.headers.origin })
+  postMiddleware.createProject(req, res, next)
 })
 
 const PORT = process.env.PORT || 3000
