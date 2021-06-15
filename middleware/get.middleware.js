@@ -54,9 +54,6 @@ module.exports = {
     Blob.findAll({
       where: {
         id: req.params.id
-      },
-      attributes: {
-        exclude: ['fileBin']
       }
     }).then((responseData) => {
       console.log(responseData[0].dataValues)
@@ -72,9 +69,6 @@ module.exports = {
     Blob.findAll({
       where: {
         fileName: req.params.filename
-      },
-      attributes: {
-        exclude: ['fileBin']
       }
     }).then((responseData) => {
       console.log(responseData[0].dataValues)
@@ -90,9 +84,6 @@ module.exports = {
     Blob.findAll({
       where: {
         fileType: req.params.filetype
-      },
-      attributes: {
-        exclude: ['fileBin']
       }
     }).then((responseData) => {
       console.log(responseData[0].dataValues)
@@ -108,9 +99,6 @@ module.exports = {
     Blob.findAll({
       where: {
         projectId: req.params.projectid
-      },
-      attributes: {
-        exclude: ['fileBin']
       }
     }).then((responseData) => {
       console.log(responseData[0].dataValues)
@@ -118,19 +106,16 @@ module.exports = {
     }).
     catch((err) => {
       console.error(err)
-      res.json({ 'error': 'Could not find file by id' })
+      res.json({ 'error': 'Could not find project by id' })
     })
   },
   getThumbnailBlob: (req, res) => {
     console.log(req.params)
     Blob.findAll({
       where: {
-        projectId: req.params.projectid,
-        isThumbnail: 1
+        projectId: req.params.projectid
       },
-      attributes: {
-        exclude: ['fileBin']
-      }
+      limit: 1
     }).then((responseData) => {
       console.log(responseData[0].dataValues)
       res.json(responseData)
