@@ -81,8 +81,6 @@ app.get('/blob/type/:filetype', (req, res) => {
   getMiddleware.getBlobsByType(req, res)
 })
 
-// FIXME: Read data from post request and redirect?
-// IDEA: Use multiparty to parse file datat?
 app.post('/create/project', (req, res, next) => {
   console.log(req.headers)
   console.log(req.body)
