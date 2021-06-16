@@ -5,6 +5,7 @@ const Project = models.projects
 
 module.exports = {
   getProjects: (req, res) => {
+    console.log(req.headers)
     console.log('Getting all projects...')
     Project.findAll().then((responseData) => {
       res.json(responseData)

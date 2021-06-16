@@ -15,8 +15,8 @@ module.exports = {
     let title
     let category
     let description
-    let createdAt
-    let updatedAt
+    const createdAt = new Date().toString()
+    const updatedAt = new Date().toString()
 
     form.on('error', next)
     form.on('close', () => {
@@ -61,10 +61,6 @@ module.exports = {
         case 'description':
           description = val
           break
-        case 'dateCreated':
-          createdAt = val
-          updatedAt = val
-          break
         default:
           break
       }
@@ -90,5 +86,66 @@ module.exports = {
 
     // Parse the form
     form.parse(req)
+  },
+  createBlob: (req, res, next) => {
+    const form = new multiparty.Form()
+    let fileName
+    let fileType
+    let projectTitle
+    const createdAt = new Date().toString()
+    const updatedAt = new Date().toString()
+
+    form.on('error', next)
+    form.on('close', () => {
+      console.log(projectTitle)
+      // Find selected project
+      Project.findAll({
+        where: {
+          title: projectTitle
+        }
+      }).then((project) => {
+        console.log(project.dataValues)
+        // Then, upload blob to portfolio.blobs table with projectId
+        Blob.create({
+          fileName,
+          fileType,
+          projectId: project.dataValues.id,
+          createdAt,
+          updatedAt
+        }).catch((err) => console.error(err))
+      }).
+      catch((err) => console.error(err))
+
+      // TEST: send what information was received
+      res.send(`Created blob ${fileName}.${fileType}<br>
+        Project: ${projectTitle}<br>
+        Created At: ${createdAt}<br>
+        Updated At: ${updatedAt}<br>`)
+    })
+
+    // Get projectTitle from project select field
+    form.on('field', (name, val) => {
+      // eslint-disable-next-line curly
+      if (name !== 'project') return
+      projectTitle = val
+    })
+
+    // Get information from blob field and create file in public folder
+    form.on('part', (part) => {
+      if (part.filename) {
+        fileName = part.filename.slice(0, part.filename.lastIndexOf('.'))
+        fileType = part.filename.slice(part.filename.lastIndexOf('.') + 1, part.filename.length)
+        part.on('data', (buf) => {
+          const fileDir = `public/${fileType}`
+          const fileLocation = `${fileDir}/${fileName}.${fileType}`
+
+          fse.ensureDirSync(fileDir)
+          fse.ensureFileSync(fileLocation)
+          console.log('File is ensured           ✅')
+          fse.appendFileSync(fileLocation, buf)
+          console.log('Data written to file      ✅')
+        })
+      }
+    })
   }
 }

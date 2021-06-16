@@ -86,11 +86,18 @@ app.get('/blob/type/:filetype', (req, res) => {
   getMiddleware.getBlobsByType(req, res)
 })
 
+// Create new project with thumbnail from incoming data
 app.post('/create/project', (req, res, next) => {
   console.log(req.headers)
-  console.log(req.body)
   postMiddleware.createProject(req, res, next)
 })
+
+// Create new blob from incoming data
+app.post('/create/blob', (req, res, next) => {
+  console.log(req.headers)
+  postMiddleware.createBlob(req, res, next)
+})
+
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
