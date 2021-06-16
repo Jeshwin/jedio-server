@@ -16,9 +16,14 @@ app.use(express.raw({ limit: '16mb' }))
 // Returns files from public folder
 app.use(express.static('public'))
 
+// Returns README of project as homepage
 app.get('/', (req, res) => {
-  console.log(req.body)
   res.sendFile('README.html', { root: __dirname })
+})
+
+// Returns info about all projects
+app.get('/projects', (req, res) => {
+  getMiddleware.getProjects(req, res)
 })
 
 // Returns info about project from integer id

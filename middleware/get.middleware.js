@@ -4,6 +4,16 @@ const Blob = models.blobs
 const Project = models.projects
 
 module.exports = {
+  getProjects: (req, res) => {
+    console.log('Getting all projects...')
+    Project.findAll().then((responseData) => {
+      res.json(responseData)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find projects' })
+    })
+  },
   getProjectById: (req, res) => {
     console.log(req.params)
     Project.findAll({
@@ -11,7 +21,6 @@ module.exports = {
         id: req.params.id
       }
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -26,7 +35,6 @@ module.exports = {
         title: req.params.title
       }
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -41,7 +49,6 @@ module.exports = {
         category: req.params.category
       }
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -56,7 +63,6 @@ module.exports = {
       limit: parseInt(req.params.amount, 10),
       order: [['updatedAt', 'DESC']]
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -71,7 +77,6 @@ module.exports = {
       limit: parseInt(req.params.amount, 10),
       order: [['createdAt', 'ASC']]
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -89,7 +94,6 @@ module.exports = {
       limit: parseInt(req.params.amount, 10),
       order: [['updatedAt', 'DESC']]
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -107,12 +111,21 @@ module.exports = {
       limit: parseInt(req.params.amount, 10),
       order: [['createdAt', 'ASC']]
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
       console.error(err)
       res.json({ 'error': 'Could not find projects' })
+    })
+  },
+  getBlobs: (req, res) => {
+    console.log('Getting all blobs...')
+    Blob.findAll().then((responseData) => {
+      res.json(responseData)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find blobs' })
     })
   },
   getBlobById: (req, res) => {
@@ -122,7 +135,6 @@ module.exports = {
         id: req.params.id
       }
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -137,7 +149,6 @@ module.exports = {
         fileName: req.params.filename
       }
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -152,7 +163,6 @@ module.exports = {
         fileType: req.params.filetype
       }
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -167,7 +177,6 @@ module.exports = {
         projectId: req.params.projectid
       }
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
@@ -183,7 +192,6 @@ module.exports = {
       },
       limit: 1
     }).then((responseData) => {
-      console.log(responseData)
       res.json(responseData)
     }).
     catch((err) => {
