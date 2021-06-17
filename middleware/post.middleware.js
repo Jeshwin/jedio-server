@@ -97,19 +97,20 @@ module.exports = {
 
     form.on('error', next)
     form.on('close', () => {
-      console.log(projectTitle)
       // Find selected project
       Project.findAll({
         where: {
           title: projectTitle
-        }
+        },
+        attributes: ['id']
       }).then((project) => {
-        console.log(project.dataValues)
+        console.log(projectTitle)
+        console.log(project[0].dataValues)
         // Then, upload blob to portfolio.blobs table with projectId
         Blob.create({
           fileName,
           fileType,
-          projectId: project.dataValues.id,
+          projectId: project[0].dataValues.id,
           createdAt,
           updatedAt
         }).catch((err) => console.error(err))
@@ -147,5 +148,8 @@ module.exports = {
         })
       }
     })
+
+    // Parse the form
+    form.parse(req)
   }
 }
