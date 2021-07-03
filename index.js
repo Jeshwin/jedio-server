@@ -6,6 +6,7 @@ const cors = require('cors')
 const app = express()
 const getMiddleware = require('./middleware/get.middleware.js')
 const postMiddleware = require('./middleware/post.middleware.js')
+const { updateProject } = require('./middleware/post.middleware.js')
 
 app.use(morgan('tiny'))
 app.use(cors())
@@ -98,6 +99,10 @@ app.post('/create/blob', (req, res, next) => {
   postMiddleware.createBlob(req, res, next)
 })
 
+// Update project of a certain name with new title, description, and/or category
+app.post('/update/project', (req, res) => {
+  updateProject(req, res)
+})
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {

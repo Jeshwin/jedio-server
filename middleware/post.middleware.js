@@ -151,5 +151,30 @@ module.exports = {
 
     // Parse the form
     form.parse(req)
+  },
+  updateProject: (req, res) => {
+    console.log(req.body)
+    res.json(req.body)
+    if (req.body.description !== '') {
+      Project.update({ description: req.body.description }, {
+        where: {
+          title: req.body.oldtitle
+        }
+      })
+    }
+    if (req.body.category !== '') {
+      Project.update({ category: req.body.category }, {
+        where: {
+          title: req.body.oldtitle
+        }
+      })
+    }
+    if (req.body.title !== '') {
+      Project.update({ title: req.body.title }, {
+        where: {
+          title: req.body.oldtitle
+        }
+      })
+    }
   }
 }
