@@ -6,7 +6,7 @@ const cors = require('cors')
 const app = express()
 const getMiddleware = require('./middleware/get.middleware.js')
 const postMiddleware = require('./middleware/post.middleware.js')
-const { updateProject } = require('./middleware/post.middleware.js')
+const deleteMiddleware = require('./middleware/delete.middleware.js')
 
 app.use(morgan('tiny'))
 app.use(cors())
@@ -101,7 +101,23 @@ app.post('/create/blob', (req, res, next) => {
 
 // Update project of a certain name with new title, description, and/or category
 app.post('/update/project', (req, res) => {
-  updateProject(req, res)
+  postMiddleware.updateProject(req, res)
+})
+
+
+// Delete project by id
+app.delete('/delete/project/:id(\\d+)', (req, res) => {
+  deleteMiddleware.deleteProject(req, res)
+})
+
+// Delete blob by id
+app.delete('/delete/blob/:id(\\d+)', (req, res) => {
+  deleteMiddleware.deleteBlob(req, res)
+})
+
+// Delete all projects in a category
+app.delete('/delete/category/:category', (req, res) => {
+  deleteMiddleware.deleteCategory(req, res)
 })
 
 const PORT = process.env.PORT || 3000
