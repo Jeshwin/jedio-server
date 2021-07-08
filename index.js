@@ -72,6 +72,11 @@ app.get('/project/:projectid(\\d+)/thumbnail', (req, res) => {
   getMiddleware.getThumbnailBlob(req, res)
 })
 
+// Returns all blob data
+app.get('/blobs', (req, res) => {
+  getMiddleware.getBlobs(req, res)
+})
+
 // Returns blob data by integer id
 app.get('/blob/:id(\\d+)', (req, res) => {
   getMiddleware.getBlobById(req, res)
@@ -103,7 +108,6 @@ app.post('/create/blob', (req, res, next) => {
 app.post('/update/project', (req, res) => {
   postMiddleware.updateProject(req, res)
 })
-
 
 // Delete project by id
 app.delete('/delete/project/:id(\\d+)', (req, res) => {

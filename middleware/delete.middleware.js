@@ -6,16 +6,26 @@ const Project = models.projects
 module.exports = {
   deleteProject: (req, res) => {
     console.log(req.params)
-    Project.destroy({
+    Blob.destroy({
       where: {
-        id: req.params.id
+        projectId: req.params.id
       }
-    }).then((responseData) => {
-      res.json(responseData)
+    }).then(() => {
+      Project.destroy({
+        where: {
+          id: req.params.id
+        }
+      }).then(() => {
+        res.json({ 'success': 'success!' })
+      }).
+      catch((err) => {
+        console.error(err)
+        res.json(err)
+      })
     }).
     catch((err) => {
       console.error(err)
-      res.json({ 'error': 'could not find project by id' })
+      res.json(err)
     })
   },
   deleteBlob: (req, res) => {
@@ -23,13 +33,14 @@ module.exports = {
     Blob.destroy({
       where: {
         id: req.params.id
-      }
+      },
+      limit: 1
     }).then((responseData) => {
       res.json(responseData)
     }).
     catch((err) => {
       console.error(err)
-      res.json({ 'error': 'could not find blob by id' })
+      res.json(err)
     })
   },
   deleteCategory: (req, res) => {
@@ -43,7 +54,7 @@ module.exports = {
     }).
     catch((err) => {
       console.error(err)
-      res.json({ 'error': 'could not find category' })
+      res.json(err)
     })
   }
 }
