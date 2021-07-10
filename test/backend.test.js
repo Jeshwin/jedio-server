@@ -28,7 +28,25 @@ describe('Portfolio Backend', () => {
     })
 
     describe('GET /projects', () => {
-      it('should get all projects')
+      it('should get all projects', (done) => {
+        chai.request(app).
+          get('/projects').
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            expect(res.body).to.have.lengthOf(4)
+            for (const id in res.body) {
+              if (Object.hasOwnProperty.call(res.body, id)) {
+                expect(res.body[id]).to.be.a('Object')
+                expect(res.body[id].id).to.equal(parseInt(id, 10) + 1)
+                expect(res.body[id].category).to.equal('test')
+              }
+            }
+            done()
+          })
+      })
     })
 
     describe('GET /project/:id', () => {
@@ -36,37 +54,76 @@ describe('Portfolio Backend', () => {
       for (const id in ids) {
         if (Object.hasOwnProperty.call(ids, id)) {
           const project = ids[id];
-          it(`should get project ${project}`)
+          it(`should get project ${project}`, (done) => {
+            chai.request(app).
+              get(`/project/${project}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body).to.have.lengthOf(1)
+                expect(res.body[0].id).to.equal(project)
+                done()
+              })
+          })
         }
       }
     })
 
     describe('GET /project/:title', () => {
       const titles = ['First', 'blah', 'a', 'Can you hear me?']
-      let projectId = 1
       for (const id in titles) {
         if (Object.hasOwnProperty.call(titles, id)) {
-          const project = titles[id];
-          it(`should get project "${project}" of id ${projectId}`)
-          projectId += 1
+          const title = titles[id];
+          it(`should get project "${title}"`, (done) => {
+            chai.request(app).
+              get(`/project/${encodeURIComponent(title)}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body).to.have.lengthOf(1)
+                expect(res.body[0].title).to.equal(title)
+                done()
+              })
+          })
         }
       }
     })
 
     describe('GET /projects/category/:category', () => {
-      it('should get projects in the test category')
+      it('should get projects in the test category', (done) => {
+        chai.request(app).
+          get('/project/category/test').
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            done()
+          })
+      })
     })
 
-    describe('GET /projects/recent/:amount', () => {
+    describe('GET /project/recent/:amount', () => {
       const amounts = [1, 2, 3, 4]
       for (const id in amounts) {
         if (Object.hasOwnProperty.call(amounts, id)) {
-          const amount = amounts[id];
-          if (amount === 1) {
-            it('should get most recent project')
-          } else {
-            it(`should get ${amount} most recent projects`)
-          }
+          const amount = amounts[id]
+          it(`should get ${amount} most recent project(s)`, (done) => {
+            chai.request(app).
+              get(`/project/recent/${amount}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body).to.have.lengthOf(amount)
+                done()
+              })
+          })
         }
       }
     })
@@ -76,11 +133,18 @@ describe('Portfolio Backend', () => {
       for (const id in amounts) {
         if (Object.hasOwnProperty.call(amounts, id)) {
           const amount = amounts[id];
-          if (amount === 1) {
-            it('should get oldest project')
-          } else {
-            it(`should get ${amount} oldest projects`)
-          }
+          it(`should get ${amount} oldest project(s)`, (done) => {
+            chai.request(app).
+              get(`/project/oldest/${amount}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body).to.have.lengthOf(amount)
+                done()
+              })
+          })
         }
       }
     })
@@ -90,11 +154,18 @@ describe('Portfolio Backend', () => {
       for (const id in amounts) {
         if (Object.hasOwnProperty.call(amounts, id)) {
           const amount = amounts[id];
-          if (amount === 1) {
-            it('should get most recent project in test category')
-          } else {
-            it(`should get ${amount} most recent projects in test category`)
-          }
+          it(`should get ${amount} most recent project(s) in test category`, (done) => {
+            chai.request(app).
+              get(`/project/test/recent/${amount}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body).to.have.lengthOf(amount)
+                done()
+              })
+          })
         }
       }
     })
@@ -104,17 +175,34 @@ describe('Portfolio Backend', () => {
       for (const id in amounts) {
         if (Object.hasOwnProperty.call(amounts, id)) {
           const amount = amounts[id];
-          if (amount === 1) {
-            it('should get oldest project in test category')
-          } else {
-            it(`should get ${amount} oldest projects in test category`)
-          }
+          it(`should get ${amount} oldest project(s) in test category`, (done) => {
+            chai.request(app).
+              get(`/project/test/oldest/${amount}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body).to.have.lengthOf(amount)
+                done()
+              })
+          })
         }
       }
     })
 
     describe('GET /blobs', () => {
-      it('should get all blobs')
+      it('should get all blobs', (done) => {
+        chai.request(app).
+          get('/blobs').
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            done()
+          })
+      })
     })
 
     describe('GET /blob/:id', () => {
@@ -122,7 +210,18 @@ describe('Portfolio Backend', () => {
       for (const id in ids) {
         if (Object.hasOwnProperty.call(ids, id)) {
           const blob = ids[id];
-          it(`should get blob ${blob}`)
+          it(`should get blob ${blob}`, (done) => {
+            chai.request(app).
+              get(`/blob/${blob}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body[0].id).to.equal(blob)
+                done()
+              })
+          })
         }
       }
     })
@@ -132,7 +231,18 @@ describe('Portfolio Backend', () => {
       for (const id in filenames) {
         if (Object.hasOwnProperty.call(filenames, id)) {
           const filename = filenames[id];
-          it(`should get blob '${filename}'`)
+          it(`should get blob '${filename}'`, (done) => {
+            chai.request(app).
+              get(`/blob/${filename}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body[0].fileName).to.equal(filename)
+                done()
+              })
+          })
         }
       }
     })
@@ -142,7 +252,22 @@ describe('Portfolio Backend', () => {
       for (const id in filetypes) {
         if (Object.hasOwnProperty.call(filetypes, id)) {
           const filetype = filetypes[id];
-          it(`should get all ${filetype} blobs`)
+          it(`should get all ${filetype} blobs`, (done) => {
+            chai.request(app).
+              get(`/blob/type/${filetype}`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                for (const jd in res.body) {
+                  if (Object.hasOwnProperty.call(res.body, jd)) {
+                    expect(res.body[jd].fileType).to.equal(filetype)
+                  }
+                }
+                done()
+              })
+          })
         }
       }
     })
@@ -152,7 +277,25 @@ describe('Portfolio Backend', () => {
       for (const id in projectids) {
         if (Object.hasOwnProperty.call(projectids, id)) {
           const projectid = projectids[id];
-          it(`should get all blobs for project ${projectid}`)
+          it(`should get all blobs for project ${projectid}`, (done) => {
+            chai.request(app).
+              get(`/project/${projectid}/blobs`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                for (const jd in res.body) {
+                  if (Object.hasOwnProperty.call(res.body, jd)) {
+                    const blob = res.body[jd]
+                    expect(blob.projectId).to.equal(projectid)
+                    expect(blob.fileName).to.exist
+                    expect(blob.fileType).to.exist
+                  }
+                }
+                done()
+              })
+          })
         }
       }
     })
@@ -162,7 +305,22 @@ describe('Portfolio Backend', () => {
       for (const id in projectids) {
         if (Object.hasOwnProperty.call(projectids, id)) {
           const projectid = projectids[id];
-          it(`should get thumbnail for project ${projectid}`)
+          it(`should get thumbnail for project ${projectid}`, (done) => {
+            chai.request(app).
+              get(`/project/${projectid}/thumbnail`).
+              end((err, res) => {
+                expect(err).to.equal(null)
+                expect(res).to.be.a('Object')
+                expect(res).to.have.status(200)
+                expect(res).to.be.json
+                expect(res.body).to.have.lengthOf(1)
+                const thumbnail = res.body[0]
+                expect(thumbnail.projectId).to.equal(projectid)
+                expect(thumbnail.fileName).to.exist
+                expect(thumbnail.fileType).to.exist
+                done()
+              })
+          })
         }
       }
     })
@@ -186,7 +344,7 @@ describe('Portfolio Backend', () => {
           const title = titles[id]
           const category = categories[id]
           const description = descriptions[id]
-          it(`Title: ${title}, Category: ${category}`)
+          it(`Title: ${title}, Category: ${category}, Desc.: ${description.slice(0, 5).trim()}...`)
         }
       }
     })
