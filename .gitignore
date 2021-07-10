@@ -2,6 +2,7 @@
 node_modules
 /dist
 /public
+/test/images
 
 
 # local env files
