@@ -30,6 +30,7 @@ describe('Portfolio Backend', () => {
     describe('GET /projects', () => {
       it('should get all projects')
     })
+
     describe('GET /project/:id', () => {
       const ids = [1, 2, 3, 4]
       for (const id in ids) {
@@ -39,6 +40,7 @@ describe('Portfolio Backend', () => {
         }
       }
     })
+
     describe('GET /project/:title', () => {
       const titles = ['First', 'blah', 'a', 'Can you hear me?']
       let projectId = 1
@@ -50,18 +52,120 @@ describe('Portfolio Backend', () => {
         }
       }
     })
-    // describe('GET /projects/category/:category')
-    // describe('GET /projects/recent/:amount')
-    // describe('GET /projects/oldest/:amount')
-    // describe('GET /projects/:category/recent/:amount')
-    // describe('GET /projects/:category/recent/:amount')
 
-    // describe('GET /blobs')
-    // describe('GET /blob/:id')
-    // describe('GET /blob/:filename')
-    // describe('GET /blob/type/:filetype')
-    // describe('GET /project/:projectid/blobs')
-    // describe('GET /project/:projectid/thumbnail')
+    describe('GET /projects/category/:category', () => {
+      it('should get projects in the test category')
+    })
+
+    describe('GET /projects/recent/:amount', () => {
+      const amounts = [1, 2, 3, 4]
+      for (const id in amounts) {
+        if (Object.hasOwnProperty.call(amounts, id)) {
+          const amount = amounts[id];
+          if (amount === 1) {
+            it('should get most recent project')
+          } else {
+            it(`should get ${amount} most recent projects`)
+          }
+        }
+      }
+    })
+
+    describe('GET /projects/oldest/:amount', () => {
+      const amounts = [1, 2, 3, 4]
+      for (const id in amounts) {
+        if (Object.hasOwnProperty.call(amounts, id)) {
+          const amount = amounts[id];
+          if (amount === 1) {
+            it('should get oldest project')
+          } else {
+            it(`should get ${amount} oldest projects`)
+          }
+        }
+      }
+    })
+
+    describe('GET /projects/:category/recent/:amount', () => {
+      const amounts = [1, 2, 3, 4]
+      for (const id in amounts) {
+        if (Object.hasOwnProperty.call(amounts, id)) {
+          const amount = amounts[id];
+          if (amount === 1) {
+            it('should get most recent project in test category')
+          } else {
+            it(`should get ${amount} most recent projects in test category`)
+          }
+        }
+      }
+    })
+
+    describe('GET /projects/:category/oldest/:amount', () => {
+      const amounts = [1, 2, 3, 4]
+      for (const id in amounts) {
+        if (Object.hasOwnProperty.call(amounts, id)) {
+          const amount = amounts[id];
+          if (amount === 1) {
+            it('should get oldest project in test category')
+          } else {
+            it(`should get ${amount} oldest projects in test category`)
+          }
+        }
+      }
+    })
+
+    describe('GET /blobs', () => {
+      it('should get all blobs')
+    })
+
+    describe('GET /blob/:id', () => {
+      const ids = [1, 2, 3, 4, 5, 6, 7]
+      for (const id in ids) {
+        if (Object.hasOwnProperty.call(ids, id)) {
+          const blob = ids[id];
+          it(`should get blob ${blob}`)
+        }
+      }
+    })
+
+    describe('GET /blob/:filename', () => {
+      const filenames = ['placeholder', 'kitten', 'shield', 'blah', 'wata', 'python', 'three']
+      for (const id in filenames) {
+        if (Object.hasOwnProperty.call(filenames, id)) {
+          const filename = filenames[id];
+          it(`should get blob '${filename}'`)
+        }
+      }
+    })
+
+    describe('GET /blob/type/:filetype', () => {
+      const filetypes = ['png', 'stl', 'wav']
+      for (const id in filetypes) {
+        if (Object.hasOwnProperty.call(filetypes, id)) {
+          const filetype = filetypes[id];
+          it(`should get all ${filetype} blobs`)
+        }
+      }
+    })
+
+    describe('GET /project/:projectid/blobs', () => {
+      const projectids = [1, 2, 3, 4]
+      for (const id in projectids) {
+        if (Object.hasOwnProperty.call(projectids, id)) {
+          const projectid = projectids[id];
+          it(`should get all blobs for project ${projectid}`)
+        }
+      }
+    })
+
+    describe('GET /project/:projectid/thumbnail', () => {
+      const projectids = [1, 2, 3, 4]
+      for (const id in projectids) {
+        if (Object.hasOwnProperty.call(projectids, id)) {
+          const projectid = projectids[id];
+          it(`should get thumbnail for project ${projectid}`)
+        }
+      }
+    })
   })
 
   // TEST: POST
