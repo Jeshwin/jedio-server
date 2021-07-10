@@ -125,6 +125,6 @@ app.delete('/delete/category/:category', (req, res) => {
 })
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
+module.exports = app.listen(PORT, () => {
   console.log(`server started at http://localhost:${PORT}/`)
 })
