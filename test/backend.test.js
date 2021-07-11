@@ -1110,7 +1110,7 @@ describe('Handle DELETE requests', () => {
       let projectId = 0
 
       before(async () => {
-        const res = await axios.get(`http://localhost:3000/project/${project}`).catch((err) => console.error(err))
+        const res = await axios.get(`http://localhost:3000/project/${encodeURIComponent(project)}`).catch((err) => console.error(err))
         projectId = res.data[0].id
       })
 
@@ -1134,7 +1134,7 @@ describe('Handle DELETE requests', () => {
       let blobId = 0
 
       before(async () => {
-        const res = await axios.get(`http://localhost:3000/blob/${blob}`).catch((err) => console.error(err))
+        const res = await axios.get(`http://localhost:3000/blob/${encodeURIComponent(blob)}`).catch((err) => console.error(err))
         blobId = res.data[0].id
       })
 
