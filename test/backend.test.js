@@ -9,6 +9,7 @@ chai.use(chaiHttp)
 
 const app = require('../index')
 const fse = require('fs-extra')
+const axios = require('axios')
 
   // TEST: GET
 describe('Handle GET requests', () => {
@@ -696,10 +697,180 @@ describe('Handle POST requests', () => {
 
 // TEST: GET AGAIN
 describe('GET newly created information', () => {
-  // TODO: get all ids and titles
-  let projectList = []
-  // TODO: get all blob info
-  let blobList = []
+  const projectList = [
+    {
+      id: 1,
+      title: 'First',
+      category: 'test'
+    },
+    {
+      id: 2,
+      title: 'blah',
+      category: 'test'
+    },
+    {
+      id: 3,
+      title: 'a',
+      category: 'test'
+    },
+    {
+      id: 4,
+      title: 'Can you hear me?',
+      category: 'test'
+    },
+    {
+      id: 5,
+      title: 'Mocha',
+      category: 'test'
+    },
+    {
+      id: 6,
+      title: 'Chai',
+      category: 'test'
+    },
+    {
+      id: 7,
+      title: 'Coffee',
+      category: 'cee'
+    },
+    {
+      id: 8,
+      title: 'Melon',
+      category: 'water'
+    },
+    {
+      id: 9,
+      title: 'Chocolate',
+      category: 'cee'
+    },
+    {
+      id: 10,
+      title: 'Candy',
+      category: 'cee'
+    }
+  ]
+  const blobList = [
+    {
+      id: 1,
+      fileName: 'placeholder',
+      fileType: 'png',
+      projectId: 3
+    },
+    {
+      id: 2,
+      fileName: 'kitten',
+      fileType: 'png',
+      projectId: 2
+    },
+    {
+      id: 3,
+      fileName: 'shield',
+      fileType: 'wav',
+      projectId: 2
+    },
+    {
+      id: 4,
+      fileName: 'blah',
+      fileType: 'stl',
+      projectId: 3
+    },
+    {
+      id: 5,
+      fileName: 'wata',
+      fileType: 'wav',
+      projectId: 2
+    },
+    {
+      id: 6,
+      fileName: 'python',
+      fileType: 'png',
+      projectId: 4
+    },
+    {
+      id: 7,
+      fileName: 'three',
+      fileType: 'stl',
+      projectId: 1
+    },
+    {
+      id: 8,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 9,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 10,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 11,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 12,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 13,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 14,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 15,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 16,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 17,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 18,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 19,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    },
+    {
+      id: 20,
+      fileName: '',
+      fileType: '',
+      projectId: 1
+    }
+  ]
   describe('GET /projects', () => {
     it('should get all projects', (done) => {
       chai.request(app).
@@ -716,7 +887,6 @@ describe('GET newly created information', () => {
             expect(project.title).to.exist
             expect(project.description).to.exist
           })
-          projectList = res.body
           done()
         })
     })
@@ -798,7 +968,6 @@ describe('GET newly created information', () => {
             expect(blob.fileName).to.exist
             expect(blob.fileType).to.exist
           })
-          blobList = res.body
           done()
         })
     })
@@ -908,15 +1077,69 @@ describe('GET newly created information', () => {
 // TEST: DELETE
 describe('Handle DELETE requests', () => {
   describe('DELETE /delete/project/:id', () => {
-    it('should delete newly created projects')
-    // TODO: New it for each deletion
+    const projects = ['Mocha', 'Chai']
+    projects.forEach((project) => {
+      let projectId = 0
+
+      before(async () => {
+        const res = await axios.get(`http://localhost:3000/project/${project}`).catch((err) => console.error(err))
+        projectId = res.data[0].id
+      })
+
+      it(`should delete project ${project}`, (done) => {
+        chai.request(app).
+          delete(`/delete/project/${projectId}`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            expect(res.body).to.have.lengthOf(1)
+            expect(res.body.success).to.exist
+            done()
+          })
+      })
+    })
   })
   describe('DELETE /delete/blob/:id', () => {
-    it('should delete remaining new blobs')
-    // TODO: New it for each deletion
+    const blobs = ['switch_lite.jpg', 'Useless Knob.stl']
+    blobs.forEach((blob) => {
+      let blobId = 0
+
+      before(async () => {
+        const res = await axios.get(`http://localhost:3000/blob/${blob}`).catch((err) => console.error(err))
+        blobId = res.data[0].id
+      })
+
+      it(`should delete blob ${blob}`, (done) => {
+        chai.request(app).
+          delete(`/delete/blob/${blobId}`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            expect(res.body).to.have.lengthOf(1)
+            expect(res.body.success).to.exist
+            done()
+          })
+      })
+    })
   })
   describe('DELETE /delete/category/:category', () => {
-    it('should delete newly created categories')
-    // TODO: New it for each deletion
+    const categories = ['cee', 'water']
+    categories.forEach((category) => {
+      it(`should delete category ${category}`, (done) => {
+        chai.request(app).
+          delete(`/delete/category/${category}`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            done()
+          })
+      })
+    })
   })
 })

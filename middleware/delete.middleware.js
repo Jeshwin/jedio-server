@@ -78,7 +78,7 @@ module.exports = {
           })
         }
       }
-      res.json(responseData)
+      res.json(responseObject)
     }).
     catch((err) => {
       console.error(err)
