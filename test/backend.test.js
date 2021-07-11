@@ -794,81 +794,81 @@ describe('GET newly created information', () => {
     },
     {
       id: 8,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'alex',
+      fileType: 'png',
+      projectId: 5
     },
     {
       id: 9,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'bobbby',
+      fileType: 'jpeg',
+      projectId: 6
     },
     {
       id: 10,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'gba_purple',
+      fileType: 'jpg',
+      projectId: 7
     },
     {
       id: 11,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'holiday puppy party',
+      fileType: 'png',
+      projectId: 8
     },
     {
       id: 12,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'red is sus',
+      fileType: 'jpg',
+      projectId: 9
     },
     {
       id: 13,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'thanos',
+      fileType: 'png',
+      projectId: 10
     },
     {
       id: 14,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'colors',
+      fileType: 'png',
+      projectId: 6
     },
     {
       id: 15,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'Soikulls',
+      fileType: 'stl',
+      projectId: 7
     },
     {
       id: 16,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'keystep',
+      fileType: 'png',
+      projectId: 8
     },
     {
       id: 17,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'cooked meat',
+      fileType: 'png',
+      projectId: 9
     },
     {
       id: 18,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'smaller bobbby',
+      fileType: 'jpg',
+      projectId: 5
     },
     {
       id: 19,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'switch_lite',
+      fileType: 'jpg',
+      projectId: 2
     },
     {
       id: 20,
-      fileName: '',
-      fileType: '',
-      projectId: 1
+      fileName: 'Useless Knob',
+      fileType: 'stl',
+      projectId: 2
     }
   ]
   describe('GET /projects', () => {
@@ -894,16 +894,23 @@ describe('GET newly created information', () => {
 
   describe('GET /project/:id', () => {
     projectList.forEach((project) => {
-      it(`should get project ${project.id}`, (done) => {
+      let projectId = 0
+
+      before(async () => {
+        const res = await axios.get(`http://localhost:3000/project/${encodeURIComponent(project.title)}`).catch((err) => console.error(err))
+        projectId = res.data[0].id
+      })
+
+      it(`should get project ${projectId}`, (done) => {
         chai.request(app).
-          get(`/project/${project.id}`).
+          get(`/project/${projectId}`).
           end((err, res) => {
             expect(err).to.equal(null)
             expect(res).to.be.a('Object')
             expect(res).to.have.status(200)
             expect(res).to.be.json
             expect(res.body).to.have.lengthOf(1)
-            expect(res.body[0].id).to.equal(project.id)
+            expect(res.body[0].id).to.equal(projectId)
             done()
           })
       })
@@ -975,16 +982,23 @@ describe('GET newly created information', () => {
 
   describe('GET /blob/:id', () => {
     blobList.forEach((blob) => {
-      it(`should get blob ${blob.id}`, (done) => {
+      let blobId = 0
+
+      before(async () => {
+        const res = await axios.get(`http://localhost:3000/blob/${encodeURIComponent(blob.fileName)}`).catch((err) => console.error(err))
+        blobId = res.data[0].id
+      })
+
+      it(`should get blob ${blobId}`, (done) => {
         chai.request(app).
-          get(`/blob/${blob.id}`).
+          get(`/blob/${blobId}`).
           end((err, res) => {
             expect(err).to.equal(null)
             expect(res).to.be.a('Object')
             expect(res).to.have.status(200)
             expect(res).to.be.json
             expect(res.body).to.have.lengthOf(1)
-            expect(res.body[0].id).to.equal(blob.id)
+            expect(res.body[0].id).to.equal(blobId)
             expect(res.body[0].fileName).to.equal(blob.fileName)
             done()
           })
@@ -994,16 +1008,23 @@ describe('GET newly created information', () => {
 
   describe('GET /blob/:filename', () => {
     blobList.forEach((blob) => {
+      let blobId = 0
+
+      before(async () => {
+        const res = await axios.get(`http://localhost:3000/blob/${encodeURIComponent(blob.fileName)}`).catch((err) => console.error(err))
+        blobId = res.data[0].id
+      })
+
       it(`should get blob ${blob.fileName}`, (done) => {
         chai.request(app).
-          get(`/blob/${blob.fileName}`).
+          get(`/blob/${encodeURIComponent(blob.fileName)}`).
           end((err, res) => {
             expect(err).to.equal(null)
             expect(res).to.be.a('Object')
             expect(res).to.have.status(200)
             expect(res).to.be.json
             expect(res.body).to.have.lengthOf(1)
-            expect(res.body[0].id).to.equal(blob.id)
+            expect(res.body[0].id).to.equal(blobId)
             expect(res.body[0].fileName).to.equal(blob.fileName)
             done()
           })
@@ -1057,16 +1078,23 @@ describe('GET newly created information', () => {
 
   describe('GET /project/:projectid/thumbnail', () => {
     projectList.forEach((project) => {
+      let projectId = 0
+
+      before(async () => {
+        const res = await axios.get(`http://localhost:3000/project/${encodeURIComponent(project.title)}`).catch((err) => console.error(err))
+        projectId = res.data[0].id
+      })
+
       it(`should get thumbnail for ${project.title}`, (done) => {
         chai.request(app).
-          get(`/project/${project.id}/thumbnail`).
+          get(`/project/${projectId}/thumbnail`).
           end((err, res) => {
             expect(err).to.equal(null)
             expect(res).to.be.a('Object')
             expect(res).to.have.status(200)
             expect(res).to.be.json
             expect(res.body).to.have.lengthOf(1)
-            expect(res.body[0].projectId).to.equal(project.id)
+            expect(res.body[0].projectId).to.equal(projectId)
             done()
           })
       })
@@ -1094,7 +1122,6 @@ describe('Handle DELETE requests', () => {
             expect(res).to.be.a('Object')
             expect(res).to.have.status(200)
             expect(res).to.be.json
-            expect(res.body).to.have.lengthOf(1)
             expect(res.body.success).to.exist
             done()
           })
@@ -1102,7 +1129,7 @@ describe('Handle DELETE requests', () => {
     })
   })
   describe('DELETE /delete/blob/:id', () => {
-    const blobs = ['switch_lite.jpg', 'Useless Knob.stl']
+    const blobs = ['switch_lite', 'Useless Knob']
     blobs.forEach((blob) => {
       let blobId = 0
 
@@ -1119,7 +1146,6 @@ describe('Handle DELETE requests', () => {
             expect(res).to.be.a('Object')
             expect(res).to.have.status(200)
             expect(res).to.be.json
-            expect(res.body).to.have.lengthOf(1)
             expect(res.body.success).to.exist
             done()
           })
