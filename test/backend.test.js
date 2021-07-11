@@ -11,7 +11,7 @@ const app = require('../index')
 const fse = require('fs-extra')
 const axios = require('axios')
 
-  // TEST: GET
+  // GET
 describe('Handle GET requests', () => {
   describe('GET /', () => {
     it('should get README.html', (done) => {
@@ -308,7 +308,7 @@ describe('Handle GET requests', () => {
   })
 })
 
-// TEST: POST
+// POST
 describe('Handle POST requests', () => {
   describe('POST /create/project', () => {
     const titles = ['Mocha', 'Chai', 'Coffee', 'Melon', 'Chocolate', 'Candy']
@@ -695,7 +695,7 @@ describe('Handle POST requests', () => {
   })
 })
 
-// TEST: GET AGAIN
+// GET AGAIN
 describe('GET newly created information', () => {
   const projectList = [
     {
@@ -1102,7 +1102,7 @@ describe('GET newly created information', () => {
   })
 })
 
-// TEST: DELETE
+// DELETE
 describe('Handle DELETE requests', () => {
   describe('DELETE /delete/project/:id', () => {
     const projects = ['Mocha', 'Chai']

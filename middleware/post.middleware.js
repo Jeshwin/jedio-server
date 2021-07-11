@@ -40,7 +40,6 @@ module.exports = {
       }).
       catch((err) => console.error(err))
 
-      // TEST: send what information was received
       res.json({
         title,
         category,
@@ -122,7 +121,6 @@ module.exports = {
       }).
       catch((err) => console.error(err))
 
-      // TEST: send what information was received
       res.json({
         fileName,
         fileType,
