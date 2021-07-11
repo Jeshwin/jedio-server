@@ -41,12 +41,17 @@ module.exports = {
       catch((err) => console.error(err))
 
       // TEST: send what information was received
-      res.send(`Created ${category} project ${title}<br>
-        Description: ${description}<br>
-        Created At: ${createdAt}<br>
-        Updated At: ${updatedAt}<br>
-        Thumbnail Name: ${fileName}<br>
-        Thumbnail Extensions: ${fileType}`)
+      res.json({
+        title,
+        category,
+        description,
+        thumbnail: {
+          fileName,
+          fileType
+        },
+        createdAt,
+        updatedAt
+      })
     })
 
     // Get information from other fields
@@ -118,10 +123,13 @@ module.exports = {
       catch((err) => console.error(err))
 
       // TEST: send what information was received
-      res.send(`Created blob ${fileName}.${fileType}<br>
-        Project: ${projectTitle}<br>
-        Created At: ${createdAt}<br>
-        Updated At: ${updatedAt}<br>`)
+      res.json({
+        fileName,
+        fileType,
+        projectTitle,
+        createdAt,
+        updatedAt
+      })
     })
 
     // Get projectTitle from project select field
