@@ -1,0 +1,4 @@
+delete...
+  project: Mocha, Chai
+  blob: switch_lite.jpg, Useless Knob.stl
+  category: cee, water

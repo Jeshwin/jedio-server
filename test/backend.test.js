@@ -245,7 +245,7 @@ describe('Handle GET requests', () => {
   describe('GET /blob/type/:filetype', () => {
     const filetypes = ['png', 'stl', 'wav']
     filetypes.forEach((filetype) => {
-      it(`should get all ${filetype} blobs`, (done) => {
+      it(`should get all .${filetype} blobs`, (done) => {
         chai.request(app).
           get(`/blob/type/${filetype}`).
           end((err, res) => {
@@ -696,8 +696,10 @@ describe('Handle POST requests', () => {
 
 // TEST: GET AGAIN
 describe('GET newly created information', () => {
-    // TODO: get all ids and titles
+  // TODO: get all ids and titles
   let projectList = []
+  // TODO: get all blob info
+  let blobList = []
   describe('GET /projects', () => {
     it('should get all projects', (done) => {
       chai.request(app).
@@ -757,64 +759,149 @@ describe('GET newly created information', () => {
   })
 
   describe('GET /projects/category/:category', () => {
+    const categories = []
     projectList.forEach((project) => {
-      
+      if (!categories.includes(project.category)) {
+        categories.push(project.category)
+      }
     })
-    it('should get projects in the test category')
+    categories.forEach((category) => {
+      it(`should get projects in the ${category} category`, (done) => {
+        chai.request(app).
+          get(`/project/category/${category}`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            res.body.forEach((project) => {
+              expect(project.category).to.equal(category)
+            })
+            done()
+          })
+      })
+    })
   })
 
   describe('GET /blobs', () => {
-    it('should get all blobs')
+    it('should get all blobs', (done) => {
+      chai.request(app).
+        get('/blobs').
+        end((err, res) => {
+          expect(err).to.equal(null)
+          expect(res).to.be.a('Object')
+          expect(res).to.have.status(200)
+          expect(res).to.be.json
+          expect(res.body).to.have.lengthOf(20)
+          res.body.forEach((blob) => {
+            expect(blob).to.be.a('Object')
+            expect(blob.fileName).to.exist
+            expect(blob.fileType).to.exist
+          })
+          blobList = res.body
+          done()
+        })
+    })
   })
 
   describe('GET /blob/:id', () => {
-    const ids = [1, 2, 3, 4, 5, 6, 7]
-    for (const id in ids) {
-      if (Object.hasOwnProperty.call(ids, id)) {
-        const blob = ids[id]
-        it(`should get blob ${blob}`)
-      }
-    }
+    blobList.forEach((blob) => {
+      it(`should get blob ${blob.id}`, (done) => {
+        chai.request(app).
+          get(`/blob/${blob.id}`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            expect(res.body).to.have.lengthOf(1)
+            expect(res.body[0].id).to.equal(blob.id)
+            expect(res.body[0].fileName).to.equal(blob.fileName)
+            done()
+          })
+      })
+    })
   })
 
   describe('GET /blob/:filename', () => {
-    const filenames = ['placeholder', 'kitten', 'shield', 'blah', 'wata', 'python', 'three']
-    for (const id in filenames) {
-      if (Object.hasOwnProperty.call(filenames, id)) {
-        const filename = filenames[id]
-        it(`should get blob '${filename}'`)
-      }
-    }
+    blobList.forEach((blob) => {
+      it(`should get blob ${blob.fileName}`, (done) => {
+        chai.request(app).
+          get(`/blob/${blob.fileName}`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            expect(res.body).to.have.lengthOf(1)
+            expect(res.body[0].id).to.equal(blob.id)
+            expect(res.body[0].fileName).to.equal(blob.fileName)
+            done()
+          })
+      })
+    })
   })
 
   describe('GET /blob/type/:filetype', () => {
-    const filetypes = ['png', 'stl', 'wav']
-    for (const id in filetypes) {
-      if (Object.hasOwnProperty.call(filetypes, id)) {
-        const filetype = filetypes[id]
-        it(`should get all ${filetype} blobs`)
+    const fileTypes = []
+    blobList.forEach((blob) => {
+      if (!fileTypes.includes(blob.fileType)) {
+        fileTypes.push(blob.fileType)
       }
-    }
+    })
+    fileTypes.forEach((fileType) => {
+      it(`should get all .${fileType} blobs`, (done) => {
+        chai.request(app).
+          get(`/blob/type/${fileType}`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            res.body.forEach((blob) => {
+              expect(blob.fileType).to.equal(fileType)
+            })
+            done()
+          })
+      })
+    })
   })
 
   describe('GET /project/:projectid/blobs', () => {
-    const projectids = [1, 2, 3, 4]
-    for (const id in projectids) {
-      if (Object.hasOwnProperty.call(projectids, id)) {
-        const projectid = projectids[id]
-        it(`should get all blobs for project ${projectid}`)
-      }
-    }
+    projectList.forEach((project) => {
+      it(`should get all blobs for ${project.title}`, (done) => {
+        chai.request(app).
+          get(`/project/${project.id}/blobs`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            res.body.forEach((blob) => {
+              expect(blob.projectId).to.equal(project.id)
+            })
+            done()
+          })
+      })
+    })
   })
 
   describe('GET /project/:projectid/thumbnail', () => {
-    const projectids = [1, 2, 3, 4]
-    for (const id in projectids) {
-      if (Object.hasOwnProperty.call(projectids, id)) {
-        const projectid = projectids[id]
-        it(`should get thumbnail for project ${projectid}`)
-      }
-    }
+    projectList.forEach((project) => {
+      it(`should get thumbnail for ${project.title}`, (done) => {
+        chai.request(app).
+          get(`/project/${project.id}/thumbnail`).
+          end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.be.a('Object')
+            expect(res).to.have.status(200)
+            expect(res).to.be.json
+            expect(res.body).to.have.lengthOf(1)
+            expect(res.body[0].projectId).to.equal(project.id)
+            done()
+          })
+      })
+    })
   })
 })
 
@@ -822,14 +909,14 @@ describe('GET newly created information', () => {
 describe('Handle DELETE requests', () => {
   describe('DELETE /delete/project/:id', () => {
     it('should delete newly created projects')
-    // New its for each deletion
+    // TODO: New it for each deletion
   })
   describe('DELETE /delete/blob/:id', () => {
     it('should delete remaining new blobs')
-    // New its for each deletion
+    // TODO: New it for each deletion
   })
   describe('DELETE /delete/category/:category', () => {
     it('should delete newly created categories')
-    // New its for each deletion
+    // TODO: New it for each deletion
   })
 })
