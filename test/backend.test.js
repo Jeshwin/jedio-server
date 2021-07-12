@@ -9,6 +9,7 @@ chai.use(chaiHttp)
 
 const app = require('../index')
 const fse = require('fs-extra')
+const fs = require('fs')
 const axios = require('axios')
 
   // GET
@@ -1104,6 +1105,22 @@ describe('GET newly created information', () => {
 
 // DELETE
 describe('Handle DELETE requests', () => {
+
+  after(() => {
+    fs.rmdir('/Users/jeshwinprince/jedio/server/public/jpg', { recursive: true }, (err) => {
+      console.error(err)
+    })
+    fs.rmdir('/Users/jeshwinprince/jedio/server/public/jpeg', { recursive: true }, (err) => {
+      console.error(err)
+    })
+    fs.rmdir('/Users/jeshwinprince/jedio/server/public/png', { recursive: true }, (err) => {
+      console.error(err)
+    })
+    fs.rmdir('/Users/jeshwinprince/jedio/server/public/stl', { recursive: true }, (err) => {
+      console.error(err)
+    })
+  })
+
   describe('DELETE /delete/project/:id', () => {
     const projects = ['Mocha', 'Chai']
     projects.forEach((project) => {
