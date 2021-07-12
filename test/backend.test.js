@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable capitalized-comments */
 /* eslint-disable no-unused-expressions */
-// const { expect } = require('chai')
 const chai = require('chai')
 const expect = chai.expect
 const chaiHttp = require('chai-http')
