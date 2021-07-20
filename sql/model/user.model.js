@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
   const crypto = require('crypto')
 
   const User = sequelize.define('user', {
-    name: {
+    username: {
       type: Sequelize.STRING(127),
       allowNull: false
     },
@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     isAdmin: {
       type: Sequelize.BOOLEAN,
-      default: 0
+      defaultValue: 0
     },
     password: {
       type: Sequelize.STRING,
