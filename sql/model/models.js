@@ -20,5 +20,6 @@ models.sequelize = sequelize
 
 models.blobs = require('./blob.model.js')(sequelize, Sequelize)
 models.projects = require('./project.model.js')(sequelize, Sequelize)
+models.users = require('./user.model.js')(sequelize, Sequelize)
 
 module.exports = models

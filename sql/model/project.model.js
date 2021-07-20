@@ -9,8 +9,15 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
     description: {
-      type: Sequelize.STRING(4095),
+      type: Sequelize.TEXT,
     },
+    userId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    }
   })
 
   return Project
