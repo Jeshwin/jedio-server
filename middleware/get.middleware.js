@@ -1,7 +1,11 @@
 const models = require('../sql/model/models.js')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+dotenv.config()
 
 const Blob = models.blobs
 const Project = models.projects
+const User = models.users
 
 module.exports = {
   getProjects: (req, res) => {
@@ -200,6 +204,32 @@ module.exports = {
     catch((err) => {
       console.error(err)
       res.json({ 'error': 'Could not find file by id' })
+    })
+  },
+  getUsers: (req, res) => {
+    User.findAll().then((users) => {
+      res.json(users)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find users' })
+    })
+  },
+  getUserByAuth: (req, res) => {
+    const token = req.headers['x-access-token']
+    if (token === null) {
+      res.sendStatus(401)
+    }
+    // eslint-disable-next-line consistent-return
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+      console.log(err)
+      if (err) {
+        res.sendStatus(403)
+        res.json(err)
+      }
+      delete user.password
+      delete user.salt
+      res.json(user)
     })
   }
 }

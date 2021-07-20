@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -122,6 +123,32 @@ app.delete('/delete/blob/:id(\\d+)', (req, res) => {
 // Delete all projects in a category
 app.delete('/delete/category/:category', (req, res) => {
   deleteMiddleware.deleteCategory(req, res)
+})
+
+/**
+ * Handling User Endpoints
+ * POST: signin, signup
+ * GET: user, admin, all users
+ */
+
+app.get('/users/all', (req, res) => {
+  getMiddleware.getUsers(req, res)
+})
+
+app.get('/user', (req, res) => {
+  getMiddleware.getUserByAuth(req, res)
+})
+
+// app.get('/admin', (req, res) => {
+//   getMiddleware.getAdminByAuth(req, res)
+// })
+
+app.post('/signin', (req, res) => {
+  postMiddleware.loginUser(req, res)
+})
+
+app.post('/signup', (req, res) => {
+  postMiddleware.registerUser(req, res)
 })
 
 const PORT = process.env.PORT || 3000

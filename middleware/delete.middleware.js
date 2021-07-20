@@ -2,6 +2,7 @@ const models = require('../sql/model/models.js')
 
 const Blob = models.blobs
 const Project = models.projects
+const User = models.users
 
 module.exports = {
   deleteProject: (req, res) => {

@@ -2,10 +2,14 @@
 /* eslint-disable init-declarations */
 const multiparty = require('multiparty')
 const fse = require('fs-extra')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+dotenv.config()
 const models = require('../sql/model/models.js')
 
 const Blob = models.blobs
 const Project = models.projects
+const User = models.users
 
 module.exports = {
   createProject: (req, res, next) => {
@@ -182,5 +186,50 @@ module.exports = {
         }
       })
     }
+  },
+  registerUser: (req, res) => {
+    console.log(req.body)
+    User.create({
+      username: req.body.username,
+      email: req.body.email,
+      isAdmin: req.body.isAdmin,
+      password: req.body.password
+    }).then(() => {
+      res.json(req.body)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json(err)
+    })
+  },
+  loginUser: (req, res) => {
+    console.log(req.body)
+    User.findAll({
+      where: {
+        username: req.body.username,
+      },
+      limit: 1
+    }).then((responseData) => {
+      const user = responseData[0].dataValues
+      console.log(user)
+      if (responseData[0].correctPassword(req.body.password)) {
+        const token = jwt.sign(user, process.env.TOKEN_SECRET)
+        const response = {}
+        response.id = user.id
+        response.username = user.username
+        response.email = user.email
+        response.isAdmin = user.isAdmin
+        response.createdAt = user.createdAt
+        response.updatedAt = user.updatedAt
+        response.accessToken = token
+        res.json(response)
+      } else {
+        res.json({ 'error': 'incorrect password ' })
+      }
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json(err)
+    })
   }
 }
