@@ -8,6 +8,7 @@
     "test": "mocha",
     "build": "node .",
     "kill": "./kill_server.sh",
+    "clean": "node clean.js",
     "lint": "npx eslint .",
     "lint-fix": "npx eslint . --fix"
   },
