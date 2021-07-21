@@ -147,7 +147,7 @@ app.post('/signin', (req, res) => {
   postMiddleware.loginUser(req, res)
 })
 
-app.post('/signup', (req, res) => {
+app.post('/register', (req, res) => {
   postMiddleware.registerUser(req, res)
 })
 
