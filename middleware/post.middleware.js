@@ -16,6 +16,7 @@ module.exports = {
     const form = new multiparty.Form()
     let fileName
     let fileType
+    let userId
     let title
     let category
     let description
@@ -29,6 +30,7 @@ module.exports = {
         title,
         category,
         description,
+        userId,
         createdAt,
         updatedAt
       }).then((project) => {
@@ -48,6 +50,7 @@ module.exports = {
         title,
         category,
         description,
+        userId,
         thumbnail: {
           fileName,
           fileType
@@ -68,6 +71,9 @@ module.exports = {
           break
         case 'description':
           description = val
+          break
+        case 'userId':
+          userId = parseInt(val, 10)
           break
         default:
           break
@@ -224,12 +230,12 @@ module.exports = {
         response.accessToken = token
         res.json(response)
       } else {
-        res.json({ 'error': 'incorrect password ' })
+        res.status(403).send({ message: 'Password is incorrect' })
       }
     }).
     catch((err) => {
       console.error(err)
-      res.json(err)
+      res.status(401).send({ message: `Could not find user ${req.body.username}` })
     })
   }
 }

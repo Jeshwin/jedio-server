@@ -43,6 +43,11 @@ app.get('/project/category/:category', (req, res) => {
   getMiddleware.getProjectsByCategory(req, res)
 })
 
+// Returns all projects for a certain user
+app.get('/project/user/:userid', (req, res) => {
+  getMiddleware.getProjectsByUser(req, res)
+})
+
 // Return recently updated projects up to a certain number
 app.get('/project/recent/:amount(\\d+)', (req, res) => {
   getMiddleware.getRecentProjects(req, res)
@@ -128,7 +133,7 @@ app.delete('/delete/category/:category', (req, res) => {
 /**
  * Handling User Endpoints
  * POST: signin, signup
- * GET: user, admin, all users
+ * GET: user, user by id, all users
  */
 
 app.get('/users/all', (req, res) => {
@@ -137,6 +142,10 @@ app.get('/users/all', (req, res) => {
 
 app.get('/user', (req, res) => {
   getMiddleware.getUserByAuth(req, res)
+})
+
+app.get('/user/:id', (req, res) => {
+  getMiddleware.getUserById(req, res)
 })
 
 app.get('/admin', (req, res) => {

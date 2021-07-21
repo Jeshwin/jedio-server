@@ -63,6 +63,19 @@ module.exports = {
       res.json({ 'error': 'Could not find this category' })
     })
   },
+  getProjectsByUser: (req, res) => {
+    Project.findAll({
+      where: {
+        userId: req.params.userid
+      }
+    }).then((projects) => {
+      res.json(projects)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find projects for this user' })
+    })
+  },
   // Return recently updated projects up to a certain number
   getRecentProjects: (req, res) => {
     console.log(req.params)
@@ -232,25 +245,19 @@ module.exports = {
       res.json(user)
     })
   },
-  getAdminByAuth: (req, res) => {
-    const token = req.headers['x-access-token']
-    if (token === null) {
-      res.sendStatus(401)
-    }
-    // eslint-disable-next-line consistent-return
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-      console.log(err)
-      if (err) {
-        res.sendStatus(403)
-        res.json(err)
-      }
-      delete user.password
-      delete user.salt
-      if (user.isAdmin) {
-        res.json(user)
-      } else {
-        res.json({ 'sorry': 'user is not admin' })
-      }
+  getUserById: (req, res) => {
+    User.findAll({
+      where: {
+        id: req.params.id
+      },
+      limit: 1,
+      attributes: ['id', 'username', 'email', 'createdAt', 'updatedAt']
+    }).then((user) => {
+      res.json(user)
+    }).
+    catch((err) => {
+      console.error(err)
+      res.json({ 'error': 'Could not find user by id' })
     })
   }
 }
