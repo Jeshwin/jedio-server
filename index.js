@@ -139,9 +139,9 @@ app.get('/user', (req, res) => {
   getMiddleware.getUserByAuth(req, res)
 })
 
-// app.get('/admin', (req, res) => {
-//   getMiddleware.getAdminByAuth(req, res)
-// })
+app.get('/admin', (req, res) => {
+  getMiddleware.getAdminByAuth(req, res)
+})
 
 app.post('/signin', (req, res) => {
   postMiddleware.loginUser(req, res)

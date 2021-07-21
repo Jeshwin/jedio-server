@@ -231,5 +231,26 @@ module.exports = {
       delete user.salt
       res.json(user)
     })
+  },
+  getAdminByAuth: (req, res) => {
+    const token = req.headers['x-access-token']
+    if (token === null) {
+      res.sendStatus(401)
+    }
+    // eslint-disable-next-line consistent-return
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+      console.log(err)
+      if (err) {
+        res.sendStatus(403)
+        res.json(err)
+      }
+      delete user.password
+      delete user.salt
+      if (user.isAdmin) {
+        res.json(user)
+      } else {
+        res.json({ 'sorry': 'user is not admin' })
+      }
+    })
   }
 }
