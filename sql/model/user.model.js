@@ -11,6 +11,10 @@ module.exports = (sequelize, Sequelize) => {
       unique: true,
       allowNull: false
     },
+    avatar: {
+      type: Sequelize.STRING(7),
+      defaultValue: '9000'
+    },
     isAdmin: {
       type: Sequelize.BOOLEAN,
       defaultValue: 0

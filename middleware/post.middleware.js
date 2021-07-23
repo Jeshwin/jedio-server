@@ -2,6 +2,7 @@
 /* eslint-disable init-declarations */
 const multiparty = require('multiparty')
 const fse = require('fs-extra')
+const seedrandom = require('seedrandom')
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
 dotenv.config()
@@ -195,9 +196,17 @@ module.exports = {
   },
   registerUser: (req, res) => {
     console.log(req.body)
+    const arng = seedrandom.alea(`@${req.body.username}+${req.body.email}`)
+    let avatar = ''
+    avatar += Math.floor(arng() * 16).toString(16)
+    avatar += Math.floor(arng() * 16).toString(16)
+    avatar += Math.floor(arng() * 16).toString(16)
+    avatar += Math.floor(arng() * 16).toString(16)
+    console.log(`Avatar: #${avatar}`)
     User.create({
       username: req.body.username,
       email: req.body.email,
+      avatar,
       isAdmin: req.body.isAdmin,
       password: req.body.password
     }).then(() => {
@@ -224,6 +233,7 @@ module.exports = {
         response.id = user.id
         response.username = user.username
         response.email = user.email
+        response.avatar = user.avatar
         response.isAdmin = user.isAdmin
         response.createdAt = user.createdAt
         response.updatedAt = user.updatedAt

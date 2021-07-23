@@ -220,7 +220,9 @@ module.exports = {
     })
   },
   getUsers: (req, res) => {
-    User.findAll().then((users) => {
+    User.findAll({
+      attributes: ['id', 'username', 'email', 'avatar', 'createdAt', 'updatedAt']
+    }).then((users) => {
       res.json(users)
     }).
     catch((err) => {
@@ -251,7 +253,7 @@ module.exports = {
         id: req.params.id
       },
       limit: 1,
-      attributes: ['id', 'username', 'email', 'createdAt', 'updatedAt']
+      attributes: ['id', 'username', 'email', 'avatar', 'createdAt', 'updatedAt']
     }).then((user) => {
       res.json(user)
     }).

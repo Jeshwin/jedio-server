@@ -18,6 +18,9 @@ app.use(express.raw({ limit: '16mb' }))
 // Returns files from public folder
 app.use(express.static('public'))
 
+// Return pfps from avatar folder
+app.use('/avatar', express.static('avatar'))
+
 // Returns README of project as homepage
 app.get('/', (req, res) => {
   res.sendFile('README.html', { root: __dirname })
