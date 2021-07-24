@@ -247,5 +247,47 @@ module.exports = {
       console.error(err)
       res.status(401).send({ message: `Could not find user ${req.body.username}` })
     })
+  },
+  editUser: (req, res) => {
+    console.log(req.body)
+    const arng = seedrandom.alea(`@${req.body.username}+${req.body.email}`)
+    let avatar = ''
+    avatar += Math.floor(arng() * 16).toString(16)
+    avatar += Math.floor(arng() * 16).toString(16)
+    avatar += Math.floor(arng() * 16).toString(16)
+    avatar += Math.floor(arng() * 16).toString(16)
+    console.log(`Avatar: #${avatar}`)
+    User.update({
+      username: req.body.username,
+      email: req.body.email,
+      avatar
+    }, {
+      where: {
+        id: req.body.userId
+      }
+    }).then((editedUser) => {
+      console.log(editedUser)
+      User.findAll({
+        where: {
+          id: req.body.userId
+        },
+        limit: 1
+      }).then((userData) => {
+        const user = userData[0].dataValues
+        console.log(user)
+        const token = jwt.sign(user, process.env.TOKEN_SECRET)
+        const response = {}
+        response.id = user.id
+        response.username = user.username
+        response.email = user.email
+        response.avatar = user.avatar
+        response.isAdmin = user.isAdmin
+        response.createdAt = user.createdAt
+        response.updatedAt = user.updatedAt
+        response.accessToken = token
+        console.log(response)
+        res.json(response)
+      })
+    })
   }
 }

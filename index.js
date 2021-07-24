@@ -135,7 +135,7 @@ app.delete('/delete/category/:category', (req, res) => {
 
 /**
  * Handling User Endpoints
- * POST: signin, signup
+ * POST: signin, signup, edit
  * GET: user, user by id, all users
  */
 
@@ -161,6 +161,10 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
   postMiddleware.registerUser(req, res)
+})
+
+app.post('/user/edit', (req, res) => {
+  postMiddleware.editUser(req, res)
 })
 
 const PORT = process.env.PORT || 3000
