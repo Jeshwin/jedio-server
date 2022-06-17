@@ -13,70 +13,60 @@ const categories = ["test", "cee", "water"];
 const categoryAmounts = [6, 3, 1];
 const projectList = [
   {
-    id: 1,
     title: "First",
     category: "test",
     description: "Hello I am an annoying commentor on Tiktok",
     thumbnail: "three.png"
   },
   {
-    id: 2,
     title: "blah",
     category: "test",
     description: "Edgy emo with undiagnosed altruism",
     thumbnail: "kitten.png"
   },
   {
-    id: 3,
     title: "a",
     category: "test",
     description: "he a oooooooo...",
     thumbnail: "placeholder.png"
   },
   {
-    id: 4,
     title: "Can you hear me?",
     category: "test",
     description: "ECHO Echo echo .... it's very lonely in space",
     thumbnail: "python.png"
   },
   {
-    id: 5,
     title: "Mocha",
     category: "test",
     description: "This is a dummy project. FOR MOCHA!",
     thumbnail: "alex.png"
   },
   {
-    id: 6,
     title: "Chai",
     category: "test",
     description: "This is a dummy project. FOR CHAI!",
     thumbnail: "bobbby.jpeg"
   },
   {
-    id: 7,
     title: "Coffee",
     category: "cee",
     description: "Did you know coffee starts with a 'c'?",
     thumbnail: "gba_purple.jpg"
   },
   {
-    id: 8,
     title: "Melon",
     category: "water",
     description: "My favorite melon is watermelon canteloupe is good too. HONEYDEW THO...",
     thumbnail: "holiday puppy party.png"
   },
   {
-    id: 9,
     title: "Chocolate",
     category: "cee",
     description: "Chocolate also starts with a 'c'!!!",
     thumbnail: "red is sus.jpg"
   },
   {
-    id: 10,
     title: "Candy",
     category: "cee",
     description: "What can I say? Candy is candy!",
@@ -86,61 +76,51 @@ const projectList = [
 const fileTypes = ["png", "stl", "jpg", "jpeg", "wav"];
 const createBlobList = [
   {
-    id: 11,
     fileName: "shield",
     fileType: "stl",
     projectId: 2,
   },
   {
-    id: 12,
     fileName: "blah",
     fileType: "stl",
     projectId: 3,
   },
   {
-    id: 13,
     fileName: "wata",
     fileType: "wav",
     projectId: 2,
   },
   {
-    id: 14,
     fileName: "colors",
     fileType: "png",
     projectId: 6,
   },
   {
-    id: 15,
     fileName: "Soikulls",
     fileType: "stl",
     projectId: 7,
   },
   {
-    id: 16,
     fileName: "keystep",
     fileType: "png",
     projectId: 8,
   },
   {
-    id: 17,
     fileName: "cooked meat",
     fileType: "png",
     projectId: 9,
   },
   {
-    id: 18,
     fileName: "smaller bobbby",
     fileType: "jpg",
     projectId: 5,
   },
   {
-    id: 19,
     fileName: "switch_lite",
     fileType: "jpg",
     projectId: 2,
   },
   {
-    id: 20,
     fileName: "Useless Knob",
     fileType: "stl",
     projectId: 2,
@@ -148,121 +128,101 @@ const createBlobList = [
 ];
 const fullBlobList = [
   {
-    id: 1,
     fileName: "three",
     fileType: "png",
     projectId: 1,
   },
   {
-    id: 2,
     fileName: "kitten",
     fileType: "png",
     projectId: 2,
   },
   {
-    id: 3,
     fileName: "placeholder",
     fileType: "png",
     projectId: 3,
   },
   {
-    id: 4,
     fileName: "python",
     fileType: "png",
     projectId: 4,
   },
   {
-    id: 5,
     fileName: "alex",
     fileType: "png",
     projectId: 5,
   },
   {
-    id: 6,
     fileName: "bobbby",
     fileType: "jpeg",
     projectId: 6,
   },
   {
-    id: 7,
     fileName: "gba_purple",
     fileType: "jpg",
     projectId: 7,
   },
   {
-    id: 8,
     fileName: "holiday puppy party",
     fileType: "png",
     projectId: 8,
   },
   {
-    id: 9,
     fileName: "red is sus",
     fileType: "jpg",
     projectId: 9,
   },
   {
-    id: 10,
     fileName: "thanos",
     fileType: "png",
     projectId: 10,
   },
   {
-    id: 11,
     fileName: "shield",
     fileType: "stl",
     projectId: 2,
   },
   {
-    id: 12,
     fileName: "blah",
     fileType: "stl",
     projectId: 3,
   },
   {
-    id: 13,
     fileName: "wata",
     fileType: "wav",
     projectId: 2,
   },
   {
-    id: 14,
     fileName: "colors",
     fileType: "png",
     projectId: 6,
   },
   {
-    id: 15,
     fileName: "Soikulls",
     fileType: "stl",
     projectId: 7,
   },
   {
-    id: 16,
     fileName: "keystep",
     fileType: "png",
     projectId: 8,
   },
   {
-    id: 17,
     fileName: "cooked meat",
     fileType: "png",
     projectId: 9,
   },
   {
-    id: 18,
     fileName: "smaller bobbby",
     fileType: "jpg",
     projectId: 5,
   },
   {
-    id: 19,
     fileName: "switch_lite",
     fileType: "jpg",
     projectId: 2,
   },
   {
-    id: 20,
     fileName: "Useless Knob",
     fileType: "stl",
     projectId: 2,
@@ -324,7 +284,7 @@ describe("Handle POST requests", () => {
             expect(returnedFileName).to.equal(`${blob.fileName}.${blob.fileType}`);
             done();
           });
-      });
+	  });
     });
   });
   describe("POST /update/project", () => {
@@ -654,7 +614,7 @@ describe("Handle POST requests", () => {
   });
 });
 
-// GET AGAIN
+// GET
 describe("Handle GET requests", () => {
   describe("GET /", () => {
     it("should get README.html", (done) => {
@@ -819,7 +779,6 @@ describe("Handle GET requests", () => {
             expect(blob).to.be.a("Object");
             expect(blob.fileName).to.exist;
             expect(blob.fileType).to.exist;
-            fullBlobList[blob.id-1] = blob;
           });
           done();
         });
@@ -851,7 +810,7 @@ describe("Handle GET requests", () => {
   describe("GET /blob/:filename", () => {
     for (let i = 1; i <= 20; i++) {
       let blobName = fullBlobList[i-1].fileName;
-      let blobId = fullBlobList[i-1].id;
+      let blobId = i;
       it(`should get blob ${blobName}`, (done) => {
         chai
           .request(app)
@@ -891,18 +850,18 @@ describe("Handle GET requests", () => {
   });
 
   describe("GET /project/:projectid/blobs", () => {
-    projectList.forEach((project) => {
+    projectList.forEach((project, index) => {
       it(`should get all blobs for ${project.title}`, (done) => {
         chai
           .request(app)
-          .get(`/project/${project.id}/blobs`)
+          .get(`/project/${index+1}/blobs`)
           .end((err, res) => {
             expect(err).to.equal(null);
             expect(res).to.be.a("Object");
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             res.body.forEach((blob) => {
-              expect(blob.projectId).to.equal(project.id);
+              expect(blob.projectId).to.equal(index+1);
               expect(blob.fileName).to.exist;
               expect(blob.fileType).to.exist;
             });

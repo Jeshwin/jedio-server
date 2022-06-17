@@ -113,7 +113,6 @@ module.exports = {
   },
   // Return recently updated projects in a category up to a certain number
   getRecentProjectsByCategory: (req, res) => {
-    console.log(req.params);
     Project.findAll({
       where: {
         category: req.params.category,
@@ -122,6 +121,7 @@ module.exports = {
       order: [["updatedAt", "DESC"]],
     })
       .then((responseData) => {
+        console.log(responseData);
         res.json(responseData);
       })
       .catch((err) => {
@@ -131,7 +131,6 @@ module.exports = {
   },
   // Return oldest projects in a category up to a certain number
   getOldestProjectsByCategory: (req, res) => {
-    console.log(req.params);
     Project.findAll({
       where: {
         category: req.params.category,
@@ -140,6 +139,7 @@ module.exports = {
       order: [["createdAt", "ASC"]],
     })
       .then((responseData) => {
+        console.log(responseData);
         res.json(responseData);
       })
       .catch((err) => {

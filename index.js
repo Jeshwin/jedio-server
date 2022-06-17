@@ -62,12 +62,12 @@ app.get("/project/oldest/:amount(\\d+)", (req, res) => {
 
 // Return recently updated projects in a category up to a certain number
 app.get("/project/:category/recent/:amount(\\d+)", (req, res) => {
-  getMiddleware.getOldestProjects(req, res);
+  getMiddleware.getRecentProjectsByCategory(req, res);
 });
 
 // Return oldest projects in a category up to a certain number
 app.get("/project/:category/oldest/:amount(\\d+)", (req, res) => {
-  getMiddleware.getOldestProjects(req, res);
+  getMiddleware.getOldestProjectsByCategory(req, res);
 });
 
 // Return all blobs for certain project by id
