@@ -17,7 +17,7 @@ const projectList = [
     title: "First",
     category: "test",
     description: "Hello I am an annoying commentor on Tiktok",
-    thumbnail: "three.stl"
+    thumbnail: "three.png"
   },
   {
     id: 2,
@@ -150,7 +150,7 @@ const fullBlobList = [
   {
     id: 1,
     fileName: "three",
-    fileType: "stl",
+    fileType: "png",
     projectId: 1,
   },
   {
