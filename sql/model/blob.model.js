@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Blob = sequelize.define('blob', {
+  const Blob = sequelize.define("blob", {
     fileName: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -11,11 +11,11 @@ module.exports = (sequelize, Sequelize) => {
     projectId: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'projects',
-        key: 'id',
-      }
-    }
-  })
+        model: "projects",
+        key: "id",
+      },
+    },
+  });
 
-  return Blob
-}
+  return Blob;
+};
